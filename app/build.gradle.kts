@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 val firebaseConfig = Properties().apply {
@@ -22,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.home_garden_system"
+        applicationId = "com.maw.smart_adwiyata"
         minSdk = 23
         targetSdk = 36
         versionCode = 1
@@ -73,6 +74,7 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
@@ -103,4 +105,8 @@ tasks.matching { it.name.startsWith("preLive") && it.name.endsWith("Build") }.co
         }) { "Live memerlukan app/firebase.properties. Salin config/firebase.properties.example atau gunakan -PfirebaseEmulator=true untuk pengujian lokal." }
         check(!useEmulator || !name.contains("Release")) { "Firebase emulator hanya boleh digunakan untuk debug." }
     }
+}
+
+tasks.matching { it.name.contains("Demo") && it.name.contains("GoogleServices") }.configureEach {
+    enabled = false
 }

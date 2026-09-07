@@ -26,7 +26,7 @@ Tekan **Jelajahi kebun demo**. Data sensor berubah secara simulasi. Pilih **Manu
 ## Android live dengan Firebase
 
 1. Ikuti [panduan Firebase](firebase/README.md) untuk membuat project, Realtime Database, akun admin/perangkat, dan izin.
-2. Daftarkan Android package **`com.example.home_garden_system`** di Firebase. Demo menggunakan suffix `.demo` dan tidak perlu didaftarkan.
+2. Daftarkan Android package **`com.maw.smart_adwiyata`** di Firebase. Demo menggunakan suffix `.demo` dan tidak perlu didaftarkan.
 3. Salin [config/firebase.properties.example](config/firebase.properties.example) ke `app/firebase.properties`.
 4. Isi `API_KEY`, `APP_ID`, `PROJECT_ID`, dan `DATABASE_URL`. Dari `google-services.json`: API key = `client[].api_key[].current_key`, APP_ID = `client[].client_info.mobilesdk_app_id`, PROJECT_ID = `project_info.project_id`. Gunakan client Android dengan package yang benar; URL database diambil dari halaman Realtime Database.
 5. Pilih **liveDebug** dan jalankan, atau:
