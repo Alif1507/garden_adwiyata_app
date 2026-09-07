@@ -1,0 +1,43 @@
+{
+  "smart_garden": {
+    "access": {
+      "admins": {
+        "demo-admin": true
+      },
+      "devices": {
+        "demo-esp32": true
+      }
+    },
+    "zones": {
+      "zone_a": {
+        "sensors": {
+          "soil_moisture": 42,
+          "soil_raw": 2148,
+          "temperature": 28.5,
+          "humidity": 67,
+          "light": 920,
+          "updated_at": 0
+        },
+        "control": {
+          "mode": "auto",
+          "moisture_start": 30,
+          "moisture_stop": 45,
+          "manual_duration_ms": 5000,
+          "manual_water": false,
+          "request_id": "",
+          "request_expires_at": 0
+        },
+        "pump": {
+          "status": false,
+          "last_started_at": 0,
+          "last_stopped_at": 0
+        },
+        "device": {
+          "online": false,
+          "last_seen": 0,
+          "acknowledged_request_id": ""
+        }
+      }
+    }
+  }
+}

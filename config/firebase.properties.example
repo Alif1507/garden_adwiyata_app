@@ -1,0 +1,6 @@
+# Salin ke app/firebase.properties, lalu isi dari Firebase Project Settings.
+# APP_ID adalah mobilesdk_app_id untuk aplikasi Android, bukan package name.
+API_KEY=
+APP_ID=
+PROJECT_ID=
+DATABASE_URL=

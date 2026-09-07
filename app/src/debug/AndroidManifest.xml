@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- HTTP hanya untuk Firebase Emulator Suite pada build debug. -->
+    <application android:networkSecurityConfig="@xml/debug_network_security" />
+</manifest>

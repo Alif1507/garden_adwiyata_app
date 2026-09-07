@@ -1,0 +1,112 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "smart_garden": {
+      "access": {
+        ".read": false,
+        ".write": false
+      },
+      "zones": {
+        "zone_a": {
+          ".read": "auth != null && (root.child('smart_garden/access/admins').child(auth.uid).val() === true || root.child('smart_garden/access/devices').child(auth.uid).val() === true)",
+          "sensors": {
+            ".write": "auth != null && root.child('smart_garden/access/devices').child(auth.uid).val() === true && root.child('smart_garden/access/admins').child(auth.uid).val() !== true && newData.exists() && newData.child('updated_at').isNumber() && newData.child('updated_at').val() % 1 === 0 && newData.child('updated_at').val() > data.child('updated_at').val() && newData.child('updated_at').val() >= now / 1000 - 30 && newData.child('updated_at').val() <= now / 1000",
+            ".validate": "newData.hasChildren(['updated_at'])",
+            "soil_moisture": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= 100"
+            },
+            "soil_raw": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= 4095"
+            },
+            "temperature": {
+              ".validate": "newData.isNumber() && newData.val() >= -40 && newData.val() <= 80"
+            },
+            "humidity": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100"
+            },
+            "light": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 200000"
+            },
+            "updated_at": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= now / 1000 - 30 && newData.val() <= now / 1000"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "control": {
+            ".write": "auth != null && root.child('smart_garden/access/admins').child(auth.uid).val() === true && root.child('smart_garden/access/devices').child(auth.uid).val() !== true && newData.exists()",
+            ".validate": "newData.hasChildren(['mode', 'moisture_start', 'moisture_stop', 'manual_duration_ms', 'manual_water', 'request_id', 'request_expires_at']) && newData.child('moisture_start').val() < newData.child('moisture_stop').val() && (newData.child('manual_water').val() === false || newData.child('mode').val() === 'manual')",
+            "mode": {
+              ".validate": "newData.isString() && (newData.val() === 'auto' || newData.val() === 'manual')"
+            },
+            "moisture_start": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= 100"
+            },
+            "moisture_stop": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= 100"
+            },
+            "manual_duration_ms": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 1000 && newData.val() <= 15000 && (data.parent().child('manual_water').val() === false || newData.val() === data.val())"
+            },
+            "manual_water": {
+              ".write": "auth != null && root.child('smart_garden/access/devices').child(auth.uid).val() === true && root.child('smart_garden/access/admins').child(auth.uid).val() !== true && data.val() === true && newData.val() === false",
+              ".validate": "newData.isBoolean() && (newData.val() === data.val() || (newData.val() === true && root.child('smart_garden/access/admins').child(auth.uid).val() === true && (data.val() === false || data.parent().child('request_expires_at').val() <= now / 1000) && newData.parent().child('mode').val() === 'manual' && newData.parent().child('request_id').isString() && newData.parent().child('request_id').val().matches(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/) && newData.parent().child('request_id').val() !== data.parent().child('request_id').val() && newData.parent().child('request_id').val() !== newData.parent().parent().child('device/acknowledged_request_id').val() && newData.parent().child('request_expires_at').isNumber() && newData.parent().child('request_expires_at').val() % 1 === 0 && newData.parent().child('request_expires_at').val() > now / 1000 && newData.parent().child('request_expires_at').val() <= now / 1000 + 10 && newData.parent().parent().child('pump/status').val() === false && newData.parent().parent().child('device/online').val() === true && newData.parent().parent().child('device/last_seen').isNumber() && now / 1000 - newData.parent().parent().child('device/last_seen').val() >= 0 && now / 1000 - newData.parent().parent().child('device/last_seen').val() < 30) || (newData.val() === false && data.val() === true && root.child('smart_garden/access/devices').child(auth.uid).val() === true && data.parent().child('mode').val() === 'manual' && data.parent().child('request_expires_at').val() > now / 1000 && data.parent().child('request_id').val() !== data.parent().parent().child('device/acknowledged_request_id').val() && newData.parent().parent().child('device/acknowledged_request_id').val() === data.parent().child('request_id').val() && data.parent().parent().child('pump/status').val() === false))"
+            },
+            "request_id": {
+              ".validate": "newData.isString() && (newData.val() === data.val() || (root.child('smart_garden/access/admins').child(auth.uid).val() === true && (data.parent().child('manual_water').val() === false || data.parent().child('request_expires_at').val() <= now / 1000) && newData.parent().child('manual_water').val() === true && newData.val().matches(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/) && newData.val() !== data.val() && newData.val() !== newData.parent().parent().child('device/acknowledged_request_id').val()))"
+            },
+            "request_expires_at": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && (newData.val() === data.val() || (root.child('smart_garden/access/admins').child(auth.uid).val() === true && (data.parent().child('manual_water').val() === false || data.val() <= now / 1000) && newData.parent().child('manual_water').val() === true && newData.val() > now / 1000 && newData.val() <= now / 1000 + 10))"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "pump": {
+            ".write": "auth != null && root.child('smart_garden/access/devices').child(auth.uid).val() === true && root.child('smart_garden/access/admins').child(auth.uid).val() !== true && newData.exists()",
+            ".validate": "newData.hasChildren(['status', 'last_started_at', 'last_stopped_at']) && ((newData.child('status').val() === data.child('status').val() && newData.child('last_started_at').val() === data.child('last_started_at').val() && newData.child('last_stopped_at').val() === data.child('last_stopped_at').val()) || (data.child('status').val() === false && newData.child('status').val() === true && newData.child('last_started_at').val() > data.child('last_started_at').val() && newData.child('last_started_at').val() >= now / 1000 - 5 && newData.child('last_started_at').val() <= now / 1000 && newData.child('last_stopped_at').val() === data.child('last_stopped_at').val()) || (data.child('status').val() === true && newData.child('status').val() === false && newData.child('last_stopped_at').val() > data.child('last_stopped_at').val() && newData.child('last_stopped_at').val() >= now / 1000 - 5 && newData.child('last_stopped_at').val() <= now / 1000 && newData.child('last_started_at').val() === data.child('last_started_at').val()))",
+            "status": {
+              ".validate": "newData.isBoolean()"
+            },
+            "last_started_at": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= now / 1000"
+            },
+            "last_stopped_at": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= now / 1000"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "device": {
+            ".write": "auth != null && root.child('smart_garden/access/devices').child(auth.uid).val() === true && root.child('smart_garden/access/admins').child(auth.uid).val() !== true && newData.exists()",
+            ".validate": "newData.hasChildren(['online', 'last_seen', 'acknowledged_request_id'])",
+            "online": {
+              ".validate": "newData.isBoolean() && (newData.val() === data.val() || (newData.parent().child('last_seen').val() > data.parent().child('last_seen').val() && newData.parent().child('last_seen').val() >= now / 1000 - 30 && newData.parent().child('last_seen').val() <= now / 1000))"
+            },
+            "last_seen": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && (newData.val() === data.val() || (newData.val() > data.val() && newData.val() >= now / 1000 - 30 && newData.val() <= now / 1000))"
+            },
+            "acknowledged_request_id": {
+              ".validate": "newData.isString() && (newData.val() === data.val() || (newData.val().matches(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/) && newData.val() === data.parent().parent().child('control/request_id').val() && data.parent().parent().child('control/manual_water').val() === true && data.parent().parent().child('control/request_expires_at').val() > now / 1000 && newData.parent().parent().child('control/manual_water').val() === false))"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      },
+      "$other": {
+        ".validate": false
+      }
+    },
+    "$other": {
+      ".validate": false
+    }
+  }
+}

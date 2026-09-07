@@ -3,10 +3,10 @@
 Approved source: `context/markdown/garden_adyiwata_app.md` and the implementation plan in the conversation.
 
 ## Deliverables
-- [ ] Android demo/live variants, Indonesian dashboard, login and controls
-- [ ] Firebase seed, role rules, emulator tests and configuration
-- [ ] ESP32 firmware, pure controller tests and compile verification
-- [ ] Setup guide, demo APK, build/lint/tests and integration review
+- [x] Android demo/live variants, Indonesian dashboard, login and controls
+- [x] Firebase seed, role rules, emulator tests and configuration
+- [x] ESP32 firmware, pure controller tests and compile verification
+- [x] Setup guide, demo APK, build/lint/tests and integration review
 
 ## Shared wire contract
 Root: `/smart_garden/zones/zone_a`. Existing timestamps are Unix seconds.

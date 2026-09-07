@@ -1,0 +1,6 @@
+.build/
+.tools/
+.arduino-data/
+.arduino-downloads/
+.arduino-user/
+smart_garden_esp32/Credentials.h

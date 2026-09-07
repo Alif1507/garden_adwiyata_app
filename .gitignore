@@ -13,6 +13,14 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/firebase.properties
+/app/google-services.json
+/firebase/node_modules/
+/firebase/*-debug.log
+/firmware/.tools/
+/firmware/.build/
+/firmware/smart_garden_esp32/config.h
+/artifacts/
 /context
 ./agents
 skills-lock.json
