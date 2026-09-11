@@ -36,7 +36,7 @@ fun GardenApp(model: GardenViewModel) {
         if (state.repository.email == null) {
             LoginScreen(state, model::login, Modifier.padding(padding))
         } else {
-            DashboardScreen(state, model::saveSettings, model::water, model::logout, Modifier.padding(padding))
+            DashboardScreen(state, model::saveSettings, model::water, model::refresh, model::logout, Modifier.padding(padding))
         }
     }
 }

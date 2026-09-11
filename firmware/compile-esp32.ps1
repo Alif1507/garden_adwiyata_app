@@ -17,6 +17,10 @@ Copy-Item -LiteralPath (Join-Path $sourceSketch 'smart_garden_esp32.ino') `
     -Destination $buildSketch -Force
 Copy-Item -LiteralPath (Join-Path $sourceSketch 'GoogleRootCa.h') `
     -Destination $buildSketch -Force
+Copy-Item -LiteralPath (Join-Path $sourceSketch 'PumpController.h') `
+    -Destination $buildSketch -Force
+Copy-Item -LiteralPath (Join-Path $sourceSketch 'PumpController.cpp') `
+    -Destination $buildSketch -Force
 Copy-Item -LiteralPath (Join-Path $sourceSketch 'Credentials.example.h') `
     -Destination (Join-Path $buildSketch 'Credentials.h') -Force
 
@@ -24,7 +28,6 @@ Push-Location $workspace
 try {
     & $cli --config-file $config compile `
         --fqbn 'esp32:esp32:esp32' `
-        --library $root `
         --build-path $buildOutput `
         $buildSketch
     exit $LASTEXITCODE

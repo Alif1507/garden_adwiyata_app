@@ -129,6 +129,14 @@ class FirebaseGardenRepository(
         }
     }
 
+    override suspend fun refresh() = translated {
+        database.goOnline()
+        requireConnection()
+        val snapshot = withTimeout(8000) { zone.get().await() }
+        latestGarden = GardenSnapshot.fromMap(snapshot.value as? Map<*, *> ?: emptyMap<Any, Any>())
+        mutableState.update { it.copy(garden = latestGarden, loading = false) }
+    }
+
     private fun requireConnection() {
         if (auth.currentUser == null) throw GardenException("Sesi berakhir. Silakan masuk kembali.")
         if (!state.value.connected) throw GardenException("Tidak terhubung. Perintah tidak dikirim.")

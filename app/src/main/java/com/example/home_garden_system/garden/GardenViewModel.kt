@@ -97,6 +97,13 @@ class GardenViewModel(
         }
     }
 
+    fun refresh() {
+        action {
+            repository.refresh()
+            mutableUi.update { it.copy(message = "Data kebun berhasil diperbarui.") }
+        }
+    }
+
     fun dismissMessage() = mutableUi.update { it.copy(message = null) }
 
     private fun action(block: suspend () -> Unit) {

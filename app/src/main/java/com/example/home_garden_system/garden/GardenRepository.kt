@@ -18,5 +18,6 @@ interface GardenRepository {
     fun logout()
     suspend fun saveSettings(settings: ControlSettings)
     suspend fun water(request: PendingWatering)
+    suspend fun refresh() {}
     fun close()
 }

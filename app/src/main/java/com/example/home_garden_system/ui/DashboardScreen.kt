@@ -32,6 +32,7 @@ fun DashboardScreen(
     state: GardenUiState,
     saveSettings: (ControlSettings) -> Unit,
     water: () -> Unit,
+    refresh: () -> Unit,
     logout: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -44,10 +45,21 @@ fun DashboardScreen(
         Spacer(Modifier.height(4.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Brand()
-            FilledTonalIconButton(onClick = { showLogout = true }, enabled = !state.busy,
-                modifier = Modifier.semantics { contentDescription = "Akun dan keluar" },
-                colors = IconButtonDefaults.filledTonalIconButtonColors(containerColor = Color(0xFFE7EEDC))) {
-                Text("SH", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                FilledTonalIconButton(onClick = refresh, enabled = !state.busy,
+                    modifier = Modifier.semantics { contentDescription = "Segarkan data" },
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(containerColor = Color(0xFFE7EEDC))) {
+                    if (state.busy) {
+                        CircularProgressIndicator(Modifier.size(16.dp), color = GardenGreen, strokeWidth = 2.dp)
+                    } else {
+                        GardenIcon(GardenSymbol.REFRESH, Modifier.size(16.dp), color = GardenInk)
+                    }
+                }
+                FilledTonalIconButton(onClick = { showLogout = true }, enabled = !state.busy,
+                    modifier = Modifier.semantics { contentDescription = "Akun dan keluar" },
+                    colors = IconButtonDefaults.filledTonalIconButtonColors(containerColor = Color(0xFFE7EEDC))) {
+                    Text("SH", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                }
             }
         }
         if (state.demo) {

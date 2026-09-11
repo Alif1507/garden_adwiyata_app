@@ -16,7 +16,7 @@ import com.example.home_garden_system.ui.theme.*
 import kotlin.math.cos
 import kotlin.math.sin
 
-enum class GardenSymbol { LEAF, DROP, SUN, THERMOMETER, SIGNAL, TUNE, ARROW, POWER }
+enum class GardenSymbol { LEAF, DROP, SUN, THERMOMETER, SIGNAL, TUNE, ARROW, POWER, REFRESH }
 
 @Composable
 fun GardenIcon(symbol: GardenSymbol, modifier: Modifier = Modifier, color: Color = GardenGreen) {
@@ -66,6 +66,14 @@ fun GardenIcon(symbol: GardenSymbol, modifier: Modifier = Modifier, color: Color
                 GardenSymbol.POWER -> {
                     drawArc(color, -50f, 280f, false, Offset(3f, 3f), Size(18f, 18f), style = stroke)
                     drawLine(color, Offset(12f, 1f), Offset(12f, 11f), 1.7f, StrokeCap.Round)
+                }
+                GardenSymbol.REFRESH -> {
+                    drawArc(color, 45f, 275f, false, Offset(4f, 4f), Size(16f, 16f), style = stroke)
+                    drawPath(Path().apply {
+                        moveTo(13f, 1f)
+                        lineTo(17f, 4.5f)
+                        lineTo(13f, 8f)
+                    }, color, style = stroke)
                 }
             }
         }

@@ -63,6 +63,10 @@ class DemoGardenRepository : GardenRepository {
             acknowledgedRequestId = request.id, pumpRunning = true)) }
     }
 
+    override suspend fun refresh() {
+        simulate()
+    }
+
     private fun simulate() {
         ticks++
         val now = System.currentTimeMillis()
